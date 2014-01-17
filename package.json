@@ -2,7 +2,7 @@
   "name": "chinchilla",
   "version": "0.0.1",
   "description": "JQuery backed Capybara like browser automation",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,11 @@
     "karma": "~0.10.9",
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.0.2",
+    "grunt": "~0.4.2",
+    "grunt-pogo": "~0.1.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "browserify": "~3.20.0",
+    "karma-browserify": "0.0.6",
     "pogoify": "0.0.2"
   },
   "dependencies": {

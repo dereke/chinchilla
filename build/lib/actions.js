@@ -24,7 +24,9 @@
             el.one(eventName, function(e) {
                 if (continuation) {
                     setTimeout(function() {
-                        continuation(void 0, e);
+                        setTimeout(function() {
+                            continuation(void 0, e);
+                        }, 0);
                     }, 0);
                 }
             });

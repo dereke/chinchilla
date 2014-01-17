@@ -6,8 +6,12 @@ module.exports(element) =
   invoke(el, event name, continuation) =
     el.one(event name) @(e)
       if (continuation)
+      // wait for the browser to catch up.
+      // certain circumstances where one is not enough!
         set timeout
-          continuation(nil,e)
+          set timeout
+            continuation(nil,e)
+          0
         0
 
     el.trigger(event name)
