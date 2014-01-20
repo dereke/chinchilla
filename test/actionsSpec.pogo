@@ -15,6 +15,21 @@ describe 'actions'
 
       done()
 
+    it 'click the first element' @(done)
+      element = $('<div><span class="click-me">first</span><span class="click-me">second</span></div>')
+
+      fired events = []
+      element.find('.click-me').on('click') @(e)
+        fired events.push(e)
+
+      actions(element).click!('.click-me', first: true)
+      fired events.length.should.equal(1)
+      element text = fired events.0.target.innerHTML
+      element text.should.equal('first')
+
+
+      done()
+
   describe 'select!'
     it 'selects an item in a select box with the given text' @(done)
       element = $("<div>

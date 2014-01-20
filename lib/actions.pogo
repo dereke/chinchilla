@@ -17,8 +17,12 @@ module.exports(element) =
     el.trigger(event name)
 
   {
-    click!(locator) =
-      invoke(find(locator), 'click', continuation)
+    click!(locator, first: false) =
+      el = find(locator)
+      if (first)
+        el := $(el.0)
+
+      invoke(el, 'click', continuation)
 
     select!(text, from: nil) =
       select element = find(from)

@@ -33,21 +33,29 @@
             return el.trigger(eventName);
         };
         return {
-            click: function(locator, continuation) {
+            click: function(locator, gen2_options, continuation) {
                 var self = this;
-                var gen2_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen3_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen1_continuationOrDefault(arguments);
-                locator = gen2_arguments[0];
-                invoke(find(locator), "click", continuation);
+                locator = gen3_arguments[0];
+                gen2_options = gen3_arguments[1];
+                var first;
+                first = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "first") && gen2_options.first !== void 0 ? gen2_options.first : false;
+                var el;
+                el = find(locator);
+                if (first) {
+                    el = $(el[0]);
+                }
+                invoke(el, "click", continuation);
             },
-            select: function(text, gen3_options, continuation) {
+            select: function(text, gen4_options, continuation) {
                 var self = this;
-                var gen4_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen5_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen1_continuationOrDefault(arguments);
-                text = gen4_arguments[0];
-                gen3_options = gen4_arguments[1];
+                text = gen5_arguments[0];
+                gen4_options = gen5_arguments[1];
                 var from;
-                from = gen3_options !== void 0 && Object.prototype.hasOwnProperty.call(gen3_options, "from") && gen3_options.from !== void 0 ? gen3_options.from : void 0;
+                from = gen4_options !== void 0 && Object.prototype.hasOwnProperty.call(gen4_options, "from") && gen4_options.from !== void 0 ? gen4_options.from : void 0;
                 var selectElement;
                 selectElement = find(from);
                 return continuation(void 0, selectElement.find("option").each(function(index, option) {
@@ -57,14 +65,14 @@
                     }
                 }));
             },
-            fillIn: function(locator, gen5_options, continuation) {
+            fillIn: function(locator, gen6_options, continuation) {
                 var self = this;
-                var gen6_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen7_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen1_continuationOrDefault(arguments);
-                locator = gen6_arguments[0];
-                gen5_options = gen6_arguments[1];
+                locator = gen7_arguments[0];
+                gen6_options = gen7_arguments[1];
                 var withValue;
-                withValue = gen5_options !== void 0 && Object.prototype.hasOwnProperty.call(gen5_options, "withValue") && gen5_options.withValue !== void 0 ? gen5_options.withValue : void 0;
+                withValue = gen6_options !== void 0 && Object.prototype.hasOwnProperty.call(gen6_options, "withValue") && gen6_options.withValue !== void 0 ? gen6_options.withValue : void 0;
                 var fillElement;
                 fillElement = find(locator).val(withValue);
                 invoke(fillElement, "change", continuation);
