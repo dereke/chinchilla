@@ -1,17 +1,16 @@
-create element()=
+create element(html:  '<div></div>')=
   appContainer = $('div#angularApp')
   if (appContainer.length == 0)
     appContainer := $('<div id="angularApp"></div>').appendTo($(document.body))
 
   appContainer.empty().nextAll().remove()
 
-  html = '<div></div>'
-
   $(html).appendTo(appContainer)
 
-module.exports.bootstrap angular(application name, configure : nil, run : nil, angular dependencies : [])=
+module.exports.bootstrap angular(application name, html: nil, configure : nil, run : nil, angular dependencies : [])=
   test module name = "Test#(application name)"
-  root element = create element()
+  root element = create element(html: html)
+
 
   angular dependencies.push(application name)
   console.log "Booting application #(angular dependencies.join(','))"
@@ -28,9 +27,6 @@ module.exports.bootstrap angular(application name, configure : nil, run : nil, a
 
   if (run)
     injector = angular.bootstrap(root element.0, [test module name])
-    set timeout
-      injector.invoke(run)
-    0
+    injector.invoke(run)
   else
     console.log('You probably meant to supply a run block')
-

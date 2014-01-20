@@ -1,25 +1,29 @@
 (function() {
     var self = this;
     var createElement;
-    createElement = function() {
-        var appContainer, html;
+    createElement = function(gen1_options) {
+        var html;
+        html = gen1_options !== void 0 && Object.prototype.hasOwnProperty.call(gen1_options, "html") && gen1_options.html !== void 0 ? gen1_options.html : "<div></div>";
+        var appContainer;
         appContainer = $("div#angularApp");
         if (appContainer.length === 0) {
             appContainer = $('<div id="angularApp"></div>').appendTo($(document.body));
         }
         appContainer.empty().nextAll().remove();
-        html = "<div></div>";
         return $(html).appendTo(appContainer);
     };
-    module.exports.bootstrapAngular = function(applicationName, gen1_options) {
+    module.exports.bootstrapAngular = function(applicationName, gen2_options) {
         var self = this;
-        var configure, run, angularDependencies;
-        configure = gen1_options !== void 0 && Object.prototype.hasOwnProperty.call(gen1_options, "configure") && gen1_options.configure !== void 0 ? gen1_options.configure : void 0;
-        run = gen1_options !== void 0 && Object.prototype.hasOwnProperty.call(gen1_options, "run") && gen1_options.run !== void 0 ? gen1_options.run : void 0;
-        angularDependencies = gen1_options !== void 0 && Object.prototype.hasOwnProperty.call(gen1_options, "angularDependencies") && gen1_options.angularDependencies !== void 0 ? gen1_options.angularDependencies : [];
+        var html, configure, run, angularDependencies;
+        html = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "html") && gen2_options.html !== void 0 ? gen2_options.html : void 0;
+        configure = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "configure") && gen2_options.configure !== void 0 ? gen2_options.configure : void 0;
+        run = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "run") && gen2_options.run !== void 0 ? gen2_options.run : void 0;
+        angularDependencies = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "angularDependencies") && gen2_options.angularDependencies !== void 0 ? gen2_options.angularDependencies : [];
         var testModuleName, rootElement, application, injector;
         testModuleName = "Test" + applicationName;
-        rootElement = createElement();
+        rootElement = createElement({
+            html: html
+        });
         angularDependencies.push(applicationName);
         console.log("Booting application " + angularDependencies.join(","));
         application = angular.module(testModuleName, angularDependencies);
@@ -33,9 +37,7 @@
         }
         if (run) {
             injector = angular.bootstrap(rootElement[0], [ testModuleName ]);
-            return setTimeout(function() {
-                return injector.invoke(run);
-            }, 0);
+            return injector.invoke(run);
         } else {
             return console.log("You probably meant to supply a run block");
         }
