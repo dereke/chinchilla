@@ -1,8 +1,13 @@
 {
   "name": "chinchilla",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JQuery backed Capybara like browser automation",
   "main": "build/index.js",
+  "homepage": "https://github.com/dereke/chinchilla",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:dereke/chinchilla.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
