@@ -78,7 +78,6 @@
                     var fillElement;
                     fillElement = find(locator);
                     if (fillElement.length === 0) {
-                        console.log("wait");
                         return setTimeout(fill, 20);
                     } else {
                         fillElement.val(withValue);

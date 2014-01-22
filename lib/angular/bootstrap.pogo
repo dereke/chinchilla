@@ -7,7 +7,7 @@ create element(html:  '<div></div>')=
 
   $(html).appendTo(appContainer)
 
-module.exports.bootstrap angular(application name, html: nil, configure : nil, run : nil, angular dependencies : [])=
+module.exports.bootstrap angular(application name, html: nil, configure : nil, test setup : nil, run : nil, angular dependencies : [])=
   test module name = "Test#(application name)"
   root element = create element(html: html)
 
@@ -26,7 +26,23 @@ module.exports.bootstrap angular(application name, html: nil, configure : nil, r
     console.log('You may want to supply a configuration block')
 
   if (run)
-    injector = angular.bootstrap(root element.0, [test module name])
-    injector.invoke(run)
+    element = angular.element(root element.0)
+
+    modules = [test module name]
+    modules.unshift(['$provide', @($provide)
+      $provide.value('$rootElement', element)
+      nil
+    ])
+    modules.unshift('ng')
+
+    injector = angular.injector(modules)
+    if (test setup)
+      injector.invoke(test setup)
+
+    injector.invoke() @($rootScope, $rootElement, $compile, $animate)
+        $rootScope.$apply()
+          element.data('$injector', injector)
+          ($compile($rootElement))($rootScope)
+          injector.invoke(run)
   else
     console.log('You probably meant to supply a run block')

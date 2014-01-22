@@ -24,8 +24,6 @@ describe 'angular bootstrap'
 
     bootstrap('MyApp', html: html, run: verify root element on page)
 
-
-
   describe 'configure'
     it 'executes the supplied configuration block' @(done)
       my app = angular.module('MyApp', [])
@@ -52,3 +50,36 @@ describe 'angular bootstrap'
 
       bootstrap('MyApp', run: verify factory injected)
 
+  describe 'test setup'
+    it 'runs before the application runs' @(done)
+      my app = angular.module('MyApp', [])
+
+      test setup has run = nil
+
+      test setup ran()=
+        test setup has run := true
+
+      verify run()=
+        test setup has run.should.be.true
+        done()
+
+      bootstrap('MyApp', test setup: test setup ran, run: verify run)
+
+    it 'has dependencies injected' @(done)
+      my factory() =
+        'noop'
+
+      my app = angular.module('MyApp', [])
+      my app.factory('MyFactory', my factory)
+
+      test setup has run = nil
+
+      verify test setup(MyFactory)=
+        console.log 'verify'
+        MyFactory.should.equal(my factory())
+        done()
+
+      noop()=
+        'noop'
+
+      bootstrap('MyApp', test setup: verify test setup, run: noop)

@@ -14,12 +14,13 @@
     };
     module.exports.bootstrapAngular = function(applicationName, gen2_options) {
         var self = this;
-        var html, configure, run, angularDependencies;
+        var html, configure, testSetup, run, angularDependencies;
         html = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "html") && gen2_options.html !== void 0 ? gen2_options.html : void 0;
         configure = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "configure") && gen2_options.configure !== void 0 ? gen2_options.configure : void 0;
+        testSetup = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "testSetup") && gen2_options.testSetup !== void 0 ? gen2_options.testSetup : void 0;
         run = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "run") && gen2_options.run !== void 0 ? gen2_options.run : void 0;
         angularDependencies = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "angularDependencies") && gen2_options.angularDependencies !== void 0 ? gen2_options.angularDependencies : [];
-        var testModuleName, rootElement, application, injector;
+        var testModuleName, rootElement, application, element, modules, injector;
         testModuleName = "Test" + applicationName;
         rootElement = createElement({
             html: html
@@ -36,8 +37,24 @@
             console.log("You may want to supply a configuration block");
         }
         if (run) {
-            injector = angular.bootstrap(rootElement[0], [ testModuleName ]);
-            return injector.invoke(run);
+            element = angular.element(rootElement[0]);
+            modules = [ testModuleName ];
+            modules.unshift([ "$provide", function($provide) {
+                $provide.value("$rootElement", element);
+                return void 0;
+            } ]);
+            modules.unshift("ng");
+            injector = angular.injector(modules);
+            if (testSetup) {
+                injector.invoke(testSetup);
+            }
+            return injector.invoke(function($rootScope, $rootElement, $compile, $animate) {
+                return $rootScope.$apply(function() {
+                    element.data("$injector", injector);
+                    $compile($rootElement)($rootScope);
+                    return injector.invoke(run);
+                });
+            });
         } else {
             return console.log("You probably meant to supply a run block");
         }
