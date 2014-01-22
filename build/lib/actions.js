@@ -73,9 +73,19 @@
                 gen6_options = gen7_arguments[1];
                 var withValue;
                 withValue = gen6_options !== void 0 && Object.prototype.hasOwnProperty.call(gen6_options, "withValue") && gen6_options.withValue !== void 0 ? gen6_options.withValue : void 0;
-                var fillElement;
-                fillElement = find(locator).val(withValue);
-                invoke(fillElement, "change", continuation);
+                var fill;
+                fill = function() {
+                    var fillElement;
+                    fillElement = find(locator);
+                    if (fillElement.length === 0) {
+                        console.log("wait");
+                        return setTimeout(fill, 20);
+                    } else {
+                        fillElement.val(withValue);
+                        invoke(fillElement, "change", continuation);
+                    }
+                };
+                return fill();
             }
         };
     };

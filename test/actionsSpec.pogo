@@ -3,7 +3,7 @@ $       = require('./vendor/jquery')
 
 describe 'actions'
   describe 'click!'
-    it 'clicking a link fires event handlers' @(done)
+    it 'clicking a link fires event handlers'
       element = $('<div><span class="click-me"></span></div>')
 
       event fired = false
@@ -13,9 +13,7 @@ describe 'actions'
       actions(element).click!('.click-me')
       event fired.should.be.true
 
-      done()
-
-    it 'click the first element' @(done)
+    it 'click the first element'
       element = $('<div><span class="click-me">first</span><span class="click-me">second</span></div>')
 
       fired events = []
@@ -27,11 +25,8 @@ describe 'actions'
       element text = fired events.0.target.innerHTML
       element text.should.equal('first')
 
-
-      done()
-
   describe 'select!'
-    it 'selects an item in a select box with the given text' @(done)
+    it 'selects an item in a select box with the given text'
       element = $("<div>
                     <select>
                       <option value='1'>Apple</option>
@@ -50,10 +45,8 @@ describe 'actions'
       event fired.should.be.true
       selected index.should.equal(1)
 
-      done()
-
   describe 'fill in!'
-    it 'clicking a link fires event handlers' @(done)
+    it 'fills in text updates value'
       element = $('<div><input name="model"></div>')
 
       event fired = false
@@ -64,4 +57,21 @@ describe 'actions'
       event fired.should.be.true
       element.find('input').val().should.equal('Ford Focus')
 
-      done()
+
+    it 'fills in text on element that appears later'
+      element = $('<div></div>')
+
+      event fired = false
+
+      set timeout
+        input = $('<input name="model">')
+        input.on('change') @(e)
+          event fired := true
+
+        element.append(input)
+      50
+
+      actions(element).fill in!('input[name=model]', with value: 'Ferrari 550')
+      event fired.should.be.true
+      element.find('input').val().should.equal('Ferrari 550')
+

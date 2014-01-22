@@ -34,7 +34,14 @@ module.exports(element) =
 
 
     fill in!(locator, with value: nil) =
-      fill element = find(locator).val(with value)
-      invoke(fill element, 'change', continuation)
+      fill() =
+        fill element = find(locator)
 
+        if (fill element.length == 0)
+          set timeout(fill, 20)
+        else
+          fill element.val(with value)
+          invoke(fill element, 'change', continuation)
+
+      fill()
   }
