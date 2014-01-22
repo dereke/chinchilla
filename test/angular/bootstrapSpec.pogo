@@ -75,7 +75,6 @@ describe 'angular bootstrap'
       test setup has run = nil
 
       verify test setup(MyFactory)=
-        console.log 'verify'
         MyFactory.should.equal(my factory())
         done()
 

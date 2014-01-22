@@ -10,6 +10,10 @@
             isVisible: function(locator) {
                 var self = this;
                 return find(locator).is(":visible");
+            },
+            hasSelector: function(locator) {
+                var self = this;
+                return find(locator).length > 0;
             }
         };
     };
