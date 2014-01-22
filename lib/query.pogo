@@ -1,4 +1,5 @@
-finders = require './finders'
+finders     = require './finders'
+wait until  = require('./waitUntil').wait until
 
 module.exports(element) =
   find = finders(element).find
@@ -6,6 +7,9 @@ module.exports(element) =
     is visible(locator) =
       find(locator).is(':visible')
 
-    has selector(locator)=
+    has selector!(locator)=
+      wait until!()
+        find(locator).length > 0
+
       find(locator).length > 0
   }

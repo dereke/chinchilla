@@ -35,7 +35,7 @@ module.exports(element) =
 
     fill in!(locator, with value: nil) =
       wait until!()
-        find(locator).length == 0
+        find(locator).length > 0
 
       fill element = find(locator)
       fill element.val(with value)

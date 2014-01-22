@@ -14,8 +14,8 @@ describe 'query'
   describe 'has selector'
     it 'returns true when the selector matches an element'
       element = elements.attach('<div><span class="find-me">test</span></div>')
-      query(element).has selector('.find-me').should.be.true
+      query(element).has selector!('.find-me').should.be.true
 
     it 'returns false when the selector does not match an element'
       element = elements.attach('<div></div>')
-      query(element).has selector('.find-me').should.be.false
+      query(element).has selector!('.find-me').should.be.false

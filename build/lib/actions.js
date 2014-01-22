@@ -90,7 +90,7 @@
                 return waitUntil(function(continuation) {
                     var gen9_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                     continuation = gen1_continuationOrDefault(arguments);
-                    return continuation(void 0, find(locator).length === 0);
+                    return continuation(void 0, find(locator).length > 0);
                 }, gen2_rethrowErrors(continuation, function(gen10_asyncResult) {
                     var fillElement;
                     gen10_asyncResult;

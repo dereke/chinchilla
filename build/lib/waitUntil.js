@@ -14,15 +14,25 @@
         }
     };
     var self = this;
-    exports.waitUntil = function(checkCondition, continuation) {
+    exports.waitUntil = function(conditionSatisfied, gen2_options, continuation) {
         var self = this;
-        var gen2_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+        var gen3_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
         continuation = gen1_continuationOrDefault(arguments);
-        checkCondition = gen2_arguments[0];
-        var wait;
+        conditionSatisfied = gen3_arguments[0];
+        gen2_options = gen3_arguments[1];
+        var timeout, waitBetweenChecks;
+        timeout = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "timeout") && gen2_options.timeout !== void 0 ? gen2_options.timeout : 1e3;
+        waitBetweenChecks = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "waitBetweenChecks") && gen2_options.waitBetweenChecks !== void 0 ? gen2_options.waitBetweenChecks : 20;
+        var maxNumberOfRuns, numberOfRuns, wait;
+        maxNumberOfRuns = Math.round(timeout / waitBetweenChecks);
+        numberOfRuns = 0;
         wait = function() {
-            if (checkCondition()) {
-                return setTimeout(wait, 20);
+            if (numberOfRuns === maxNumberOfRuns) {
+                continuation();
+            }
+            if (!conditionSatisfied()) {
+                numberOfRuns = numberOfRuns + 1;
+                return setTimeout(wait, waitBetweenChecks);
             } else {
                 continuation();
             }
