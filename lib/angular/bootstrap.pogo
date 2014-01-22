@@ -43,6 +43,7 @@ module.exports.bootstrap angular(application name, html: nil, configure : nil, t
         $rootScope.$apply()
           element.data('$injector', injector)
           ($compile($rootElement))($rootScope)
-          injector.invoke(run)
+
+    injector.invoke(run)
   else
     console.log('You probably meant to supply a run block')

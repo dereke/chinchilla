@@ -48,13 +48,13 @@
             if (testSetup) {
                 injector.invoke(testSetup);
             }
-            return injector.invoke(function($rootScope, $rootElement, $compile, $animate) {
+            injector.invoke(function($rootScope, $rootElement, $compile, $animate) {
                 return $rootScope.$apply(function() {
                     element.data("$injector", injector);
-                    $compile($rootElement)($rootScope);
-                    return injector.invoke(run);
+                    return $compile($rootElement)($rootScope);
                 });
             });
+            return injector.invoke(run);
         } else {
             return console.log("You probably meant to supply a run block");
         }
