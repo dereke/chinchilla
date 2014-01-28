@@ -9,6 +9,13 @@ This framework was created specifically to test `angular` apps written in [PogoS
 
 # How to use chinchilla
 
+You will want to use this with browserify:
+
+```
+chinchilla = require 'chinchilla'
+browser = chinchilla($('body'))
+```
+
 ## Finders
 
 ```
@@ -19,6 +26,8 @@ browser.find!('.any-css-selector')
 
 ```
 browser.click!('.any-css-selector')
+browser.click link!('text in link')
+browser.click button!('text in button')
 browser.select!('Orange', from: 'select[name=fruit]')
 browser.fill in!('input.message', with value: 'Hello World')
 ```
@@ -28,4 +37,12 @@ browser.fill in!('input.message', with value: 'Hello World')
 ```
 browser.is visible!('.any-css-selector')
 browser.has selector!('.any-css-selector')
+browser.has selector?('.cart .product', count: 5)
+```
+
+## Scope
+
+```
+browser.within('.product') @(scope)
+  scope.click button!('buy now')
 ```
