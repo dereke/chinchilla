@@ -24,6 +24,12 @@ module.exports(element) =
 
       invoke(el, 'click', continuation)
 
+    click link!(text)=
+        self.click! "a:contains(#(text))"
+
+    click button!(text)=
+        self.click! "button:contains(#(text))"
+
     select!(text, from: nil) =
       select element = find!(from)
 

@@ -25,6 +25,29 @@ describe 'actions'
       element text = fired events.0.target.innerHTML
       element text.should.equal('first')
 
+  describe 'click link!'
+    it 'finds the link by its text and clicks it'
+      element = $('<div><a>my link</a></div>')
+
+      fired events = []
+      element.find('a').on('click') @(e)
+        fired events.push(e)
+
+      actions(element).click link!('my link')
+      fired events.length.should.equal(1)
+
+  describe 'click button!'
+    it 'finds the button by its text and clicks it'
+      element = $('<div><button>my button</button></div>')
+
+      fired events = []
+      element.find('button').on('click') @(e)
+        fired events.push(e)
+
+      actions(element).click button!('my button')
+      fired events.length.should.equal(1)
+
+
   describe 'select!'
     it 'selects an item in a select box with the given text'
       element = $("<div>
