@@ -26,6 +26,21 @@
             };
         }
     };
+    var gen3_asyncIfElse = function(condition, thenBody, elseBody, cb) {
+        if (condition) {
+            try {
+                thenBody(cb);
+            } catch (ex) {
+                cb(ex);
+            }
+        } else {
+            try {
+                elseBody(cb);
+            } catch (ex) {
+                cb(ex);
+            }
+        }
+    };
     var self = this;
     var finders;
     finders = require("./finders");
@@ -36,21 +51,34 @@
         return {
             isVisible: function(locator, continuation) {
                 var self = this;
-                var gen3_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen4_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen2_continuationOrDefault(arguments);
-                locator = gen3_arguments[0];
-                return find(locator, gen1_rethrowErrors(continuation, function(gen4_asyncResult) {
-                    return continuation(void 0, gen4_asyncResult.is(":visible"));
+                locator = gen4_arguments[0];
+                return find(locator, gen1_rethrowErrors(continuation, function(gen5_asyncResult) {
+                    return continuation(void 0, gen5_asyncResult.is(":visible"));
                 }));
             },
-            hasSelector: function(locator, continuation) {
+            hasSelector: function(locator, gen6_options, continuation) {
                 var self = this;
-                var gen5_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen7_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen2_continuationOrDefault(arguments);
-                locator = gen5_arguments[0];
-                return find(locator, gen1_rethrowErrors(continuation, function(gen6_asyncResult) {
-                    return continuation(void 0, gen6_asyncResult.length > 0);
-                }));
+                locator = gen7_arguments[0];
+                gen6_options = gen7_arguments[1];
+                var count;
+                count = gen6_options !== void 0 && Object.prototype.hasOwnProperty.call(gen6_options, "count") && gen6_options.count !== void 0 ? gen6_options.count : void 0;
+                return gen3_asyncIfElse(count, function(continuation) {
+                    var gen8_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                    continuation = gen2_continuationOrDefault(arguments);
+                    return find(locator, gen1_rethrowErrors(continuation, function(gen9_asyncResult) {
+                        return continuation(void 0, gen9_asyncResult.length === count);
+                    }));
+                }, function(continuation) {
+                    var gen10_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                    continuation = gen2_continuationOrDefault(arguments);
+                    return find(locator, gen1_rethrowErrors(continuation, function(gen11_asyncResult) {
+                        return continuation(void 0, gen11_asyncResult.length > 0);
+                    }));
+                }, continuation);
             }
         };
     };

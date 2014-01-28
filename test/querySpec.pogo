@@ -19,3 +19,12 @@ describe 'query'
     it 'returns false when the selector does not match an element'
       element = elements.attach('<div></div>')
       query(element).has selector!('.find-me').should.be.false
+
+    describe 'count'
+      it 'returns true when there are x number of matches'
+        element = elements.attach('<div><span>test1</span><span>test2</span></div>')
+        query(element).has selector!('span', count: 2).should.be.true
+
+      it 'returns false when there are not x number of matches'
+        element = elements.attach('<div><span>test1</span><span>test2</span></div>')
+        query(element).has selector!('span', count: 3).should.be.false
