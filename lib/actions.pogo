@@ -1,5 +1,4 @@
 finders     = require './finders'
-wait until  = require('./waitUntil').wait until
 
 module.exports(element) =
   find = finders(element).find
@@ -19,14 +18,14 @@ module.exports(element) =
 
   {
     click!(locator, first: false) =
-      el = find(locator)
+      el = find!(locator)
       if (first)
         el := $(el.0)
 
       invoke(el, 'click', continuation)
 
     select!(text, from: nil) =
-      select element = find(from)
+      select element = find!(from)
 
       select element.find('option').each @(index, option)
         if ($(option).text() == text)
@@ -34,10 +33,7 @@ module.exports(element) =
           select element.change()
 
     fill in!(locator, with value: nil) =
-      wait until!()
-        find(locator).length > 0
-
-      fill element = find(locator)
+      fill element = find!(locator)
       fill element.val(with value)
       invoke(fill element, 'change', continuation)
   }
