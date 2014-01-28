@@ -7,8 +7,9 @@ module.exports(element) =
       find!(locator).is(':visible')
 
     has selector!(locator, count: nil)=
+      number of elements = find!(locator).length
       if (count)
-        find!(locator).length == count
+        number of elements == count
       else
-        find!(locator).length > 0
+        number of elements > 0
   }
