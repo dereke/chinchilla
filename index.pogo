@@ -1,10 +1,7 @@
-_       = require 'underscore'
-finders = require './lib/finders'
-actions = require './lib/actions'
-query   = require './lib/query'
+scope   = require './lib/scope'
 angular = require './lib/angular/bootstrap'
 
 module.exports(element)=
-  _.extend({}, finders(element), actions(element), query(element))
+  scope(element)
 
 module.exports.bootstrap angular = angular.bootstrap angular
