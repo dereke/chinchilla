@@ -1,19 +1,31 @@
 module.exports(chai, utils)=
-  chai.Assertion.addMethod('haveSelector') @(locator, options)
+  have selector!(assert, locator, options)=
+    scope = utils.flag(assert, 'object')
+    if (utils.flag(assert, 'negate'))
+      @throw @new Error("This assertion cannot be used with a negation.\nPlease use 'not have selector' instead.")
+
     count = nil
     if (options)
       count := options.count
 
-    obj = this._obj
-    should equal = true
-    if (this.__flags.negate)
-      should equal := false
+    has selector = scope.has selector!(locator, count: count)
 
-    acceptable = obj.has selector!(locator, count: count) == should equal
 
     message = 'to exist'
-    if (count && !acceptable)
-      message := "to have #(count) occurrences (only #(obj.find!(locator).length) found)"
+    if (count && !has selector)
+      message := "to have #(count) occurrences (only #(scope.find!(locator).length) found)"
+
+    {
+      has selector  = has selector
+      message       = message
+    }
 
 
-    this.assert(acceptable, "expected element '#(locator)' #(message)", "expected element '#(locator)' not #(message)", locator, "nothing")
+  chai.Assertion.addMethod('haveSelector') @(locator, options)
+    result = have selector!(this, locator, options)
+    assert(result.has selector, "expected element '#(locator)' #(result.message)")
+
+  chai.Assertion.addMethod('notHaveSelector') @(locator, options)
+    result = have selector!(this, locator, options)
+    assert(!result.has selector, "expected element '#(locator)' not #(result.message)")
+

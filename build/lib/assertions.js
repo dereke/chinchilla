@@ -40,37 +40,63 @@
     var self = this;
     module.exports = function(chai, utils) {
         var self = this;
-        return chai.Assertion.addMethod("haveSelector", function(locator, options, continuation) {
+        var haveSelector;
+        haveSelector = function(assert, locator, options, continuation) {
             var gen4_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
             continuation = gen2_continuationOrDefault(arguments);
-            locator = gen4_arguments[0];
-            options = gen4_arguments[1];
-            var count, obj, shouldEqual;
+            assert = gen4_arguments[0];
+            locator = gen4_arguments[1];
+            options = gen4_arguments[2];
+            var scope, count;
+            scope = utils.flag(assert, "object");
+            if (utils.flag(assert, "negate")) {
+                throw new Error("This assertion cannot be used with a negation.\nPlease use 'not have selector' instead.");
+            }
             count = void 0;
             if (options) {
                 count = options.count;
             }
-            obj = this._obj;
-            shouldEqual = true;
-            if (this.__flags.negate) {
-                shouldEqual = false;
-            }
-            return obj.hasSelector(locator, {
+            return scope.hasSelector(locator, {
                 count: count
             }, gen1_rethrowErrors(continuation, function(gen5_asyncResult) {
-                var acceptable, message;
-                acceptable = gen5_asyncResult === shouldEqual;
+                var hasSelector, message;
+                hasSelector = gen5_asyncResult;
                 message = "to exist";
-                return gen3_asyncIf(count && !acceptable, function(continuation) {
+                return gen3_asyncIf(count && !hasSelector, function(continuation) {
                     var gen6_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                     continuation = gen2_continuationOrDefault(arguments);
-                    return obj.find(locator, gen1_rethrowErrors(continuation, function(gen7_asyncResult) {
+                    return scope.find(locator, gen1_rethrowErrors(continuation, function(gen7_asyncResult) {
                         return continuation(void 0, message = "to have " + count + " occurrences (only " + gen7_asyncResult.length + " found)");
                     }));
                 }, gen1_rethrowErrors(continuation, function(gen8_asyncResult) {
                     gen8_asyncResult;
-                    return continuation(void 0, this.assert(acceptable, "expected element '" + locator + "' " + message, "expected element '" + locator + "' not " + message, locator, "nothing"));
+                    return continuation(void 0, {
+                        hasSelector: hasSelector,
+                        message: message
+                    });
                 }));
+            }));
+        };
+        chai.Assertion.addMethod("haveSelector", function(locator, options, continuation) {
+            var gen9_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+            continuation = gen2_continuationOrDefault(arguments);
+            locator = gen9_arguments[0];
+            options = gen9_arguments[1];
+            return haveSelector(this, locator, options, gen1_rethrowErrors(continuation, function(gen10_asyncResult) {
+                var result;
+                result = gen10_asyncResult;
+                return continuation(void 0, assert(result.hasSelector, "expected element '" + locator + "' " + result.message));
+            }));
+        });
+        return chai.Assertion.addMethod("notHaveSelector", function(locator, options, continuation) {
+            var gen11_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+            continuation = gen2_continuationOrDefault(arguments);
+            locator = gen11_arguments[0];
+            options = gen11_arguments[1];
+            return haveSelector(this, locator, options, gen1_rethrowErrors(continuation, function(gen12_asyncResult) {
+                var result;
+                result = gen12_asyncResult;
+                return continuation(void 0, assert(!result.hasSelector, "expected element '" + locator + "' not " + result.message));
             }));
         });
     };
