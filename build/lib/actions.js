@@ -27,12 +27,9 @@
         }
     };
     var self = this;
-    var finders;
-    finders = require("./finders");
-    module.exports = function(element) {
+    module.exports = function(scope) {
         var self = this;
-        var find, invoke;
-        find = finders(element).find;
+        var invoke;
         invoke = function(el, eventName, continuation) {
             el.one(eventName, function(e) {
                 if (continuation) {
@@ -54,7 +51,7 @@
                 gen3_options = gen4_arguments[1];
                 var first;
                 first = gen3_options !== void 0 && Object.prototype.hasOwnProperty.call(gen3_options, "first") && gen3_options.first !== void 0 ? gen3_options.first : false;
-                return find(locator, gen1_rethrowErrors(continuation, function(gen5_asyncResult) {
+                return scope.find(locator, gen1_rethrowErrors(continuation, function(gen5_asyncResult) {
                     var el;
                     el = gen5_asyncResult;
                     if (first) {
@@ -85,7 +82,7 @@
                 gen8_options = gen9_arguments[1];
                 var from;
                 from = gen8_options !== void 0 && Object.prototype.hasOwnProperty.call(gen8_options, "from") && gen8_options.from !== void 0 ? gen8_options.from : void 0;
-                return find(from, gen1_rethrowErrors(continuation, function(gen10_asyncResult) {
+                return scope.find(from, gen1_rethrowErrors(continuation, function(gen10_asyncResult) {
                     var selectElement;
                     selectElement = gen10_asyncResult;
                     return continuation(void 0, selectElement.find("option").each(function(index, option) {
@@ -104,7 +101,7 @@
                 gen11_options = gen12_arguments[1];
                 var withValue;
                 withValue = gen11_options !== void 0 && Object.prototype.hasOwnProperty.call(gen11_options, "withValue") && gen11_options.withValue !== void 0 ? gen11_options.withValue : void 0;
-                return find(locator, gen1_rethrowErrors(continuation, function(gen13_asyncResult) {
+                return scope.find(locator, gen1_rethrowErrors(continuation, function(gen13_asyncResult) {
                     var fillElement;
                     fillElement = gen13_asyncResult;
                     fillElement.val(withValue);

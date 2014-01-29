@@ -15,7 +15,7 @@ describe 'assertions'
 
     it 'does not have an element'
       element = elements.attach('<div></div>')
-      browser = chinchilla(element)
+      browser = chinchilla(element, {timeout = 10})
 
       browser.should.not.have selector!('button')
 
@@ -27,6 +27,6 @@ describe 'assertions'
 
     it 'does not have a number of elements'
       element = elements.attach('<div><span></span></div>')
-      browser = chinchilla(element)
+      browser = chinchilla(element, {timeout = 10})
 
       browser.should.not.have selector!('span', count: 2)

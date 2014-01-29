@@ -3,17 +3,27 @@ finders = require './finders'
 actions = require './actions'
 query   = require './query'
 
-module.exports(element) =
-  _.extend({}, finders(element), actions(element), query(element), module.exports.scope(element))
+default config = {
+  timeout = 1000
+}
 
-module.exports.scope(element)=
-  find = finders(element).find
+module.exports(element, config) =
+  if (!config)
+    config := default config
+
   scope = {
+    timeout = config.timeout
+    element = element
+  }
+  _.extend(scope, finders(scope), actions(scope), query(scope), module.exports.scope(scope))
+
+module.exports.scope(scope)=
+  {
     within!(locator, block)=
       if (!block)
         @throw @new Error(module.exports.errors.no block)
 
-      element = find!(locator)
+      element = scope.find!(locator)
       block!(module.exports(element))
   }
 

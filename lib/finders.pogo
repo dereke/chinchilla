@@ -1,13 +1,13 @@
 wait until  = require('./waitUntil').wait until
 
-module.exports(element) =
+module.exports(scope) =
   {
     find!(locator) =
-      wait until!()
+      wait until!(scope: scope)
         if (!locator)
           @throw @new Error('It seems like find was not called with the async operator - `!` in pogo)')
 
-        element.find(locator).length > 0
+        scope.element.find(locator).length > 0
 
-      element.find(locator)
+      scope.element.find(locator)
   }

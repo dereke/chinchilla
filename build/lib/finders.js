@@ -29,7 +29,7 @@
     var self = this;
     var waitUntil;
     waitUntil = require("./waitUntil").waitUntil;
-    module.exports = function(element) {
+    module.exports = function(scope) {
         var self = this;
         return {
             find: function(locator, continuation) {
@@ -43,10 +43,12 @@
                     if (!locator) {
                         throw new Error("It seems like find was not called with the async operator - `!` in pogo)");
                     }
-                    return continuation(void 0, element.find(locator).length > 0);
+                    return continuation(void 0, scope.element.find(locator).length > 0);
+                }, {
+                    scope: scope
                 }, gen2_rethrowErrors(continuation, function(gen5_asyncResult) {
                     gen5_asyncResult;
-                    return continuation(void 0, element.find(locator));
+                    return continuation(void 0, scope.element.find(locator));
                 }));
             }
         };

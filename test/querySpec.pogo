@@ -1,4 +1,4 @@
-query     = require '../lib/query'
+query     = require '../index'
 elements  = require './elementHelper'
 
 describe 'query'

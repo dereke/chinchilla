@@ -27,19 +27,15 @@
         }
     };
     var self = this;
-    var finders;
-    finders = require("./finders");
-    module.exports = function(element) {
+    module.exports = function(scope) {
         var self = this;
-        var find;
-        find = finders(element).find;
         return {
             isVisible: function(locator, continuation) {
                 var self = this;
                 var gen3_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen2_continuationOrDefault(arguments);
                 locator = gen3_arguments[0];
-                return find(locator, gen1_rethrowErrors(continuation, function(gen4_asyncResult) {
+                return scope.find(locator, gen1_rethrowErrors(continuation, function(gen4_asyncResult) {
                     return continuation(void 0, gen4_asyncResult.is(":visible"));
                 }));
             },
@@ -51,7 +47,7 @@
                 gen5_options = gen6_arguments[1];
                 var count;
                 count = gen5_options !== void 0 && Object.prototype.hasOwnProperty.call(gen5_options, "count") && gen5_options.count !== void 0 ? gen5_options.count : void 0;
-                return find(locator, gen1_rethrowErrors(continuation, function(gen7_asyncResult) {
+                return scope.find(locator, gen1_rethrowErrors(continuation, function(gen7_asyncResult) {
                     var numberOfElements;
                     numberOfElements = gen7_asyncResult.length;
                     if (count) {

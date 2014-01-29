@@ -20,10 +20,17 @@
         continuation = gen1_continuationOrDefault(arguments);
         conditionSatisfied = gen3_arguments[0];
         gen2_options = gen3_arguments[1];
-        var timeout, waitBetweenChecks;
-        timeout = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "timeout") && gen2_options.timeout !== void 0 ? gen2_options.timeout : 1e3;
+        var scope, timeout, waitBetweenChecks;
+        scope = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "scope") && gen2_options.scope !== void 0 ? gen2_options.scope : void 0;
+        timeout = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "timeout") && gen2_options.timeout !== void 0 ? gen2_options.timeout : void 0;
         waitBetweenChecks = gen2_options !== void 0 && Object.prototype.hasOwnProperty.call(gen2_options, "waitBetweenChecks") && gen2_options.waitBetweenChecks !== void 0 ? gen2_options.waitBetweenChecks : 20;
         var maxNumberOfRuns, numberOfRuns, wait;
+        if (!timeout && scope) {
+            timeout = scope.timeout;
+        }
+        if (!timeout) {
+            timeout = 1e3;
+        }
         maxNumberOfRuns = Math.round(timeout / waitBetweenChecks);
         numberOfRuns = 0;
         wait = function() {

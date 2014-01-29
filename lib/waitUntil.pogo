@@ -1,4 +1,10 @@
-exports.wait until!(condition satisfied, timeout: 1000, wait between checks: 20) =
+exports.wait until!(condition satisfied, scope: nil, timeout: nil, wait between checks: 20) =
+  if (!timeout && scope)
+    timeout := scope.timeout
+
+  if (!timeout)
+    timeout := 1000
+
   max number of runs = Math.round(timeout/wait between checks)
   number of runs = 0
 

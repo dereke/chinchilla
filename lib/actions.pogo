@@ -1,8 +1,4 @@
-finders     = require './finders'
-
-module.exports(element) =
-  find = finders(element).find
-
+module.exports(scope) =
   invoke(el, event name, continuation) =
     el.one(event name) @(e)
       if (continuation)
@@ -18,7 +14,7 @@ module.exports(element) =
 
   {
     click!(locator, first: false) =
-      el = find!(locator)
+      el = scope.find!(locator)
       if (first)
         el := $(el.0)
 
@@ -31,7 +27,7 @@ module.exports(element) =
         self.click! "button:contains(#(text))"
 
     select!(text, from: nil) =
-      select element = find!(from)
+      select element = scope.find!(from)
 
       select element.find('option').each @(index, option)
         if ($(option).text() == text)
@@ -39,7 +35,7 @@ module.exports(element) =
           select element.change()
 
     fill in!(locator, with value: nil) =
-      fill element = find!(locator)
+      fill element = scope.find!(locator)
       fill element.val(with value)
       invoke(fill element, 'change', continuation)
   }

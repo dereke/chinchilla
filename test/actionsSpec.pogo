@@ -1,4 +1,4 @@
-actions = require '../lib/actions'
+actions = require '../index'
 $       = require('./vendor/jquery')
 
 describe 'actions'

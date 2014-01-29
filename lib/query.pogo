@@ -1,13 +1,10 @@
-finders     = require './finders'
-
-module.exports(element) =
-  find = finders(element).find
+module.exports(scope) =
   {
     is visible!(locator) =
-      find!(locator).is(':visible')
+      scope.find!(locator).is(':visible')
 
     has selector!(locator, count: nil)=
-      number of elements = find!(locator).length
+      number of elements = scope.find!(locator).length
       if (count)
         number of elements == count
       else
