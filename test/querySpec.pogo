@@ -9,15 +9,15 @@ describe 'query'
 
     it 'returns false when it is not visible'
       element = elements.attach('<div><span class="find-me" style="display:none">test</span></div>')
-      query(element).is visible!('.find-me').should.be.false
+      query(element).is visible!('.find-me', options: {timeout = 0}).should.be.false
 
     describe 'delay'
       it 'returns true even if it is not immediately visible'
         element = elements.attach('<div><span class="find-me" style="display:none">test</span></div>')
         set timeout
           element.find('.find-me').show()
-        10
-        query(element).is visible!('.find-me').should.be.true
+        100
+        query(element).is visible!('.find-me', options: {timeout = 200}).should.be.true
 
   describe 'has selector'
     it 'returns true when the selector matches an element'

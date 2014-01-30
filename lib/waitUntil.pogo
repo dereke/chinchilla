@@ -1,21 +1,36 @@
-exports.wait until!(condition satisfied, scope: nil, timeout: nil, wait between checks: 20) =
-  if (!timeout && scope)
-    timeout := scope.timeout
+_ = require 'underscore'
 
-  if (!timeout)
-    timeout := 1000
+exports.default options = {
+  timeout             = 1000
+  wait between checks = 20
+}
 
-  max number of runs = Math.round(timeout/wait between checks)
+exports.wait until!(condition satisfied, scope: nil, options: nil) =
+  continue with execution = continuation
+  actual options = _.clone(exports.default options)
+
+  if (scope)
+    _.extend(actual options, _.pick(scope, 'timeout', 'waitBetweenChecks'))
+
+  if (options)
+    _.extend(actual options, _.pick(options, 'timeout', 'waitBetweenChecks'))
+
+  options := actual options
+
+  max number of runs = Math.round(options.timeout/options.wait between checks)
   number of runs = 0
 
   wait()=
     if (number of runs == max number of runs)
-      continuation()
+      continue with execution()
 
-    if (!condition satisfied())
-      number of runs := number of runs + 1
-      set timeout (wait, wait between checks)
+    satisfied = condition satisfied!(options)
+
+    if (satisfied)
+      continue with execution()
     else
-      continuation()
+      number of runs := number of runs + 1
+      set timeout (wait, options.wait between checks)
 
   wait()
+

@@ -2,9 +2,9 @@ wait until  = require('./waitUntil').wait until
 
 module.exports(scope) =
   {
-    is visible!(locator) =
+    is visible!(locator, options: nil) =
       element = scope.find!(locator)
-      wait until!(scope: scope)
+      wait until!(scope: scope, options: options)
         element.is(':visible')
 
       element.is(':visible')

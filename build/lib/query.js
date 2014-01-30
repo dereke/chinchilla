@@ -32,37 +32,41 @@
     module.exports = function(scope) {
         var self = this;
         return {
-            isVisible: function(locator, continuation) {
+            isVisible: function(locator, gen3_options, continuation) {
                 var self = this;
-                var gen3_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen4_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen1_continuationOrDefault(arguments);
-                locator = gen3_arguments[0];
-                return scope.find(locator, gen2_rethrowErrors(continuation, function(gen4_asyncResult) {
+                locator = gen4_arguments[0];
+                gen3_options = gen4_arguments[1];
+                var options;
+                options = gen3_options !== void 0 && Object.prototype.hasOwnProperty.call(gen3_options, "options") && gen3_options.options !== void 0 ? gen3_options.options : void 0;
+                return scope.find(locator, gen2_rethrowErrors(continuation, function(gen5_asyncResult) {
                     var element;
-                    element = gen4_asyncResult;
+                    element = gen5_asyncResult;
                     return waitUntil(function(continuation) {
-                        var gen5_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                        var gen6_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                         continuation = gen1_continuationOrDefault(arguments);
                         return continuation(void 0, element.is(":visible"));
                     }, {
-                        scope: scope
-                    }, gen2_rethrowErrors(continuation, function(gen6_asyncResult) {
-                        gen6_asyncResult;
+                        scope: scope,
+                        options: options
+                    }, gen2_rethrowErrors(continuation, function(gen7_asyncResult) {
+                        gen7_asyncResult;
                         return continuation(void 0, element.is(":visible"));
                     }));
                 }));
             },
-            hasSelector: function(locator, gen7_options, continuation) {
+            hasSelector: function(locator, gen8_options, continuation) {
                 var self = this;
-                var gen8_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
+                var gen9_arguments = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
                 continuation = gen1_continuationOrDefault(arguments);
-                locator = gen8_arguments[0];
-                gen7_options = gen8_arguments[1];
+                locator = gen9_arguments[0];
+                gen8_options = gen9_arguments[1];
                 var count;
-                count = gen7_options !== void 0 && Object.prototype.hasOwnProperty.call(gen7_options, "count") && gen7_options.count !== void 0 ? gen7_options.count : void 0;
-                return scope.find(locator, gen2_rethrowErrors(continuation, function(gen9_asyncResult) {
+                count = gen8_options !== void 0 && Object.prototype.hasOwnProperty.call(gen8_options, "count") && gen8_options.count !== void 0 ? gen8_options.count : void 0;
+                return scope.find(locator, gen2_rethrowErrors(continuation, function(gen10_asyncResult) {
                     var numberOfElements;
-                    numberOfElements = gen9_asyncResult.length;
+                    numberOfElements = gen10_asyncResult.length;
                     if (count) {
                         return continuation(void 0, numberOfElements === count);
                     } else {
