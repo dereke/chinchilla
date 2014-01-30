@@ -72,6 +72,37 @@ describe 'assertions'
 
           expect(error message).to.equal("expected element 'span' not to exist")
 
+  describe 'be visible'
+    describe 'positive'
+      it 'is visible'
+        element = elements.attach('<div><span class="find-me">test</span></div>')
+        browser = chinchilla(element)
+        browser.should.be visible!('span')
+
+      it 'throws a nice error message'
+        element = elements.attach('<div></div>')
+        browser = chinchilla(element, {timeout = 10})
+
+        error message = run failing code!()
+          browser.should.be visible!('span')
+
+        expect(error message).to.equal("expected element 'span' to be visible")
+
+    describe 'negative'
+      it 'is not visible'
+        element = elements.attach('<div><button style="display:none"></button></div>')
+        browser = chinchilla(element, {timeout = 10})
+
+        browser.should.not be visible!('button')
+
+      it 'throws a nice error message'
+        element = elements.attach('<div><button></button></div>')
+        browser = chinchilla(element, {timeout = 10})
+
+        error message = run failing code!()
+          browser.should.not be visible!('button')
+
+        expect(error message).to.equal("expected element 'button' not to be visible")
 
 run failing code!(block)=
   try
