@@ -1,7 +1,13 @@
+wait until  = require('./waitUntil').wait until
+
 module.exports(scope) =
   {
     is visible!(locator) =
-      scope.find!(locator).is(':visible')
+      element = scope.find!(locator)
+      wait until!(scope: scope)
+        element.is(':visible')
+
+      element.is(':visible')
 
     has selector!(locator, count: nil)=
       number of elements = scope.find!(locator).length

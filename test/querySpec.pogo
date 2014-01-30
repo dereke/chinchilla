@@ -11,6 +11,14 @@ describe 'query'
       element = elements.attach('<div><span class="find-me" style="display:none">test</span></div>')
       query(element).is visible!('.find-me').should.be.false
 
+    describe 'delay'
+      it 'returns true even if it is not immediately visible'
+        element = elements.attach('<div><span class="find-me" style="display:none">test</span></div>')
+        set timeout
+          element.find('.find-me').show()
+        10
+        query(element).is visible!('.find-me').should.be.true
+
   describe 'has selector'
     it 'returns true when the selector matches an element'
       element = elements.attach('<div><span class="find-me">test</span></div>')
