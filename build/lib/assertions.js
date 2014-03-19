@@ -38,6 +38,8 @@
         }
     };
     var self = this;
+    var assert;
+    assert = require("chai").assert;
     module.exports = function(chai, utils) {
         var self = this;
         var haveSelector, beVisible;

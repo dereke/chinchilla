@@ -1,3 +1,5 @@
+assert = require('chai').assert
+
 module.exports(chai, utils)=
   have selector!(assert, locator, options)=
     scope = utils.flag(assert, 'object')
